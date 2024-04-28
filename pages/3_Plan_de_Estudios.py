@@ -117,6 +117,15 @@ def main():
             df['Acrónimo'] = acronimos
             asigCodAcro,asigAcroCod,nombresNivel,cursosNivel,posic,nombresCiclo = generarDatosNodos(df)
             mostrarGrafo(acronimos,posic)
+            
+            posicionNivel = {}
+            for nivel, nodos in cursosNivel.items():
+                y_pos = sum([posic[node][1] for node in nodos]) / len(nodos) 
+                posicionNivel[nivel] = (0.5, y_pos)
+
+            for nivel, posicion in posicionNivel.items():
+                plt.text(posicion[0], posicion[1], nivel, rotation=90, fontsize=20, verticalalignment='center', horizontalalignment='center')
+
             st.pyplot(plt)
     else:
         st.error("Debes iniciar sesión para ver el contenido.")
