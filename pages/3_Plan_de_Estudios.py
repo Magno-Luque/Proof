@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
-
+import networkx as nx
+import matplotlib.pyplot as plt
 from login import autenticacion_usuario
 
 page_bg_img = """
@@ -54,6 +55,53 @@ def obtenerAcronimo(df, nombresCorregidos):
     listaAcronimos.append(letTem)
   
   return listaAcronimos
+
+
+# Función que me permite generara los nodos en base a nuestro DatFrame
+def generarDatosNodos(df):
+    asigCodAcro = {}
+    asigAcroCod = {}
+    nombresNivel = {}
+    cursosNivel = {}
+    posic = {}
+    nombresCiclo = []
+
+    for index, row in df.iterrows():
+        asigCodAcro[row['Código']] = row['Acrónimo']
+    for index, row in df.iterrows():
+        asigAcroCod[row['Acrónimo']] = row['Código']
+    nivel = ["PRIMER","SEGUNDO","TERCER","CUARTO","QUINTO","SEXTO","SÉTIMO","OCTAVO","NOVENO","DÉCIMO"]
+
+    for num, nombre in enumerate(nivel):
+        nombresNivel[nivel[num]] = num+1
+
+    for nombre, ciclo in nombresNivel.items():
+        dicTem = []
+        for index, row in df.iterrows():
+            if ciclo == row['Ciclo']:
+                dicTem.append(row['Acrónimo'])
+        cursosNivel[nombre + ' CICLO'] = dicTem
+
+    for contador, (i, j) in enumerate(cursosNivel.items()):
+        c = 1
+        nombresCiclo.append(i)
+        if contador % 2==0:
+            c += 0.5
+        for k in j:
+            posic[k] = (c, 20 - contador*2)
+            c +=1
+
+    return asigCodAcro,asigAcroCod,nombresNivel,cursosNivel,posic,nombresCiclo
+
+
+# Función que nos permite mostrar la malla curricular como gráfo
+def mostrarGrafo(acronimos,posic):
+    G = nx.DiGraph()
+    G.add_nodes_from(acronimos)
+    plt.figure(figsize=(17, 27))
+    nx.draw(G, posic, with_labels=True, node_color='skyblue', node_size=8000, edge_color='black', linewidths=1, font_size=20)
+    
+  
 def main():
     if autenticacion_usuario():
         st.title("Plan de estudios")
@@ -69,7 +117,8 @@ def main():
             df['Nombre Requisito'] = nombresCorregidos
             acronimos = obtenerAcronimo(df,nombresCorregidos)
             df['Acrónimo'] = acronimos
-            st.write(df)
+            asigCodAcro,asigAcroCod,nombresNivel,cursosNivel,posic,nombresCiclo = generarDatosNodos()
+            mostrarGrafo(acronimos,posic)
     else:
         st.error("Debes iniciar sesión para ver el contenido.")
 
