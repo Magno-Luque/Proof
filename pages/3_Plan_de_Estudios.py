@@ -203,7 +203,6 @@ def main():
             if nivelPresionado:
                 st.sidebar.markdown(f"**Información sobre el {nivelPresionado}:**")
                 if nivelPresionado in cursosNivel:
-                    st.write(df)
                     cursos = cursosNivel[nivelPresionado]
                     for curso in cursos:
                         if curso in df['Acrónimo'] :
@@ -228,6 +227,7 @@ def main():
                             st.sidebar.write(f"- Modalidad: *{modalidad_nombre[curso]}*")
                             st.sidebar.write(f"- N° Céditos: *{cred_nombre[curso]}*")
                             st.sidebar.write(f"- Requisito: *{req_nombre[curso]}*")
+                        continue
                 else:
                     st.sidebar.write("Información específica no disponible para este ciclo.")
             st.pyplot(plt)
