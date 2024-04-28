@@ -20,7 +20,7 @@ def leerDataFrame(df):
     elif extension == 'xlsx':
         data = pd.read_excel(df)
     else:
-        raise ValueError("¡Este tipo de archivo no es admitido!")
+        pass
 
     verificarDataFrame(data)
 
