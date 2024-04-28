@@ -119,6 +119,7 @@ def main():
             df['Acrónimo'] = acronimos
             asigCodAcro,asigAcroCod,nombresNivel,cursosNivel,posic,nombresCiclo = generarDatosNodos()
             mostrarGrafo(acronimos,posic)
+            st.pyplot(plt)
     else:
         st.error("Debes iniciar sesión para ver el contenido.")
 
