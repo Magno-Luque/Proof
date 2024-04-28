@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 
 from login import autenticacion_usuario
+from readDataFrame import leerDataFrame
 
 
 def main():
@@ -9,7 +10,7 @@ def main():
         st.title("Plan de estudios")
         upload_file = st.file_uploader('Subir el plan de estudios correspondiente a tu carrera')
         if upload_file is not None:
-            df = pd.read_csv(upload_file)
+            df = leerDataFrame(upload_file)
             st.session_state['df']= df
     else:
         st.error("Debes iniciar sesión para ver el contenido.")
