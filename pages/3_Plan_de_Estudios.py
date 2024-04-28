@@ -117,7 +117,7 @@ def main():
             df['Nombre Requisito'] = nombresCorregidos
             acronimos = obtenerAcronimo(df,nombresCorregidos)
             df['Acrónimo'] = acronimos
-            asigCodAcro,asigAcroCod,nombresNivel,cursosNivel,posic,nombresCiclo = generarDatosNodos()
+            asigCodAcro,asigAcroCod,nombresNivel,cursosNivel,posic,nombresCiclo = generarDatosNodos(df)
             mostrarGrafo(acronimos,posic)
             st.pyplot(plt)
     else:
