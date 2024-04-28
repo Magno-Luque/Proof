@@ -9,13 +9,13 @@ def verificarDataFrame(df):
     return df
 
 # Función que permite la lectura de DataFrame
-def load_csv(file_path):
+def leerDataFrame(file):
 
-    extension = file_path.split('.')[-1]
+    extension = file.split('.')[-1]
     if extension == 'csv':
-        data = pd.read_csv(file_path)
+        data = pd.read_csv(file)
     elif extension == 'xlsx':
-        data = pd.read_excel(file_path)
+        data = pd.read_excel(file)
     else:
         raise ValueError("¡Este tipo de archivo no es admitido!")
 
