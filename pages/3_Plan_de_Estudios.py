@@ -203,6 +203,7 @@ def main():
             if nivelPresionado:
                 st.sidebar.markdown(f"**Información sobre el {nivelPresionado}:**")
                 if nivelPresionado in cursosNivel:
+                    st.write(acronimos1)
                     cursos = cursosNivel[nivelPresionado]
                     for curso in cursos:
                         if curso in acronimos1:
