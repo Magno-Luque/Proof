@@ -11,20 +11,22 @@ def verificarDataFrame(df):
             raise ValueError(f"El DataFrame no tiene la columna requerida: {columna}")
     return df
 
-# Función que permite la lectura de DataFrame
-def leerDataFrame(df):
 
-    extension = df.split('.')[-1]
+# Función que permite la lectura de DataFrame
+def leerDataFrame(upload_file):
+    filename = upload_file.name  
+    extension = filename.split('.')[-1]  
     if extension == 'csv':
-        data = pd.read_csv(df)
+        data = pd.read_csv(upload_file)
     elif extension == 'xlsx':
-        data = pd.read_excel(df)
+        data = pd.read_excel(upload_file)
     else:
-        pass
+        raise ValueError("¡Este tipo de archivo no es admitido!")
 
     verificarDataFrame(data)
 
     return data
+
 
 def main():
     if autenticacion_usuario():
