@@ -31,9 +31,10 @@ def main():
         st.title("Plan de estudios")
         upload_file = st.file_uploader('Subir el plan de estudios correspondiente a tu carrera')
         if upload_file is not None:
-            df = leerDataFrame(upload_file)
-         
+            filename = upload_file.name
+            df = leerDataFrame(filename)
             st.session_state['df']= df
+            st.write(f"Archivo cargado: {filename}")
     else:
         st.error("Debes iniciar sesión para ver el contenido.")
 
