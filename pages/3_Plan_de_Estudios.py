@@ -56,7 +56,7 @@ def main():
             nombresCorregidos = arreglarNombres(df, 'Nombre Requisito')
             df['Nombre Requisito'] = nombresCorregidos
             acronimos = obtenerAcronimo(df,nombresCorregidos)
-            df['Acrónimos'] = acronimos
+            df['Acrónimo'] = acronimos
             st.write(df)
     else:
         st.error("Debes iniciar sesión para ver el contenido.")
