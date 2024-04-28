@@ -4,7 +4,11 @@ import os
 from login import autenticacion_usuario
 
 ######Esta es la pagina principal(MAIN)##########
-
+st.set_page_config(
+    page_title="register",
+    page_icon="school",
+    initial_sidebar_state="expanded",
+)
 ####Configuracion de página#######
 st.set_page_config(
     page_title="Portal de Matrícula"
