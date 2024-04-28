@@ -45,9 +45,6 @@ def main():
     else:
         st.error("Debes iniciar sesión para ver el contenido.")
 
-    
-
-
 
 if __name__ == "__main__":
     main()
