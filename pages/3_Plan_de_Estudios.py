@@ -187,10 +187,10 @@ def main():
             df['Nombre'] = nombresCorregidos
             nombresCorregidos = arreglarNombres(df, 'Nombre Requisito')
             df['Nombre Requisito'] = nombresCorregidos
-            acronimos1 = obtenerAcronimo(df,nombresCorregidos)
-            df['Acrónimo'] = acronimos1
-            asigCodAcro,asigAcroCod,listAris,acronimos2,cursosNivel,posic,nombresCiclo = generarDatosNodos(df,acronimos1)
-            mostrarGrafo(acronimos2,posic,listAris)
+            acronimos = obtenerAcronimo(df,nombresCorregidos)
+            df['Acrónimo'] = acronimos
+            asigCodAcro,asigAcroCod,listAris,acronimos1,cursosNivel,posic,nombresCiclo = generarDatosNodos(df,acronimos)
+            mostrarGrafo(acronimos1,posic,listAris)
             
             posicionNivel = {}
             for nivel, nodos in cursosNivel.items():
@@ -230,7 +230,7 @@ def main():
                         
                 else:
                     st.sidebar.write("Información específica no disponible para este ciclo.")
-            st.pyplot(plt)
+        st.pyplot(plt)
     else:
         st.error("Debes iniciar sesión para ver el contenido.")
 
