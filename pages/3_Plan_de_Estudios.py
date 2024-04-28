@@ -205,27 +205,28 @@ def main():
                 if nivelPresionado in cursosNivel:
                     cursos = cursosNivel[nivelPresionado]
                     for curso in cursos:
-                        curso_nombre = {}
-                        tipo_nombre = {}
-                        sede_nombre = {}
-                        modalidad_nombre = {}
-                        cred_nombre = {}
-                        req_nombre = {}
+                        if curso in acronimos1:
+                            curso_nombre = {}
+                            tipo_nombre = {}
+                            sede_nombre = {}
+                            modalidad_nombre = {}
+                            cred_nombre = {}
+                            req_nombre = {}
 
-                        for index, row in df.iterrows():
-                            curso_nombre[row['Acrónimo']] = row['Nombre']
-                            tipo_nombre[row['Acrónimo']] = row['Tipo']
-                            sede_nombre[row['Acrónimo']] = row['Sede']
-                            modalidad_nombre[row['Acrónimo']] = row['Modalidad']
-                            cred_nombre[row['Acrónimo']] = row['Créditos']
-                            req_nombre[row['Acrónimo']] = row['Nombre Requisito']
+                            for index, row in df.iterrows():
+                                curso_nombre[row['Acrónimo']] = row['Nombre']
+                                tipo_nombre[row['Acrónimo']] = row['Tipo']
+                                sede_nombre[row['Acrónimo']] = row['Sede']
+                                modalidad_nombre[row['Acrónimo']] = row['Modalidad']
+                                cred_nombre[row['Acrónimo']] = row['Créditos']
+                                req_nombre[row['Acrónimo']] = row['Nombre Requisito']
 
-                        st.sidebar.write(f"**{curso}: {curso_nombre[curso]}**")
-                        st.sidebar.write(f"- Tipo: *{tipo_nombre[curso]}*")
-                        st.sidebar.write(f"- Sede: *{sede_nombre[curso]}*")
-                        st.sidebar.write(f"- Modalidad: *{modalidad_nombre[curso]}*")
-                        st.sidebar.write(f"- N° Céditos: *{cred_nombre[curso]}*")
-                        st.sidebar.write(f"- Requisito: *{req_nombre[curso]}*")
+                            st.sidebar.write(f"**{curso}: {curso_nombre[curso]}**")
+                            st.sidebar.write(f"- Tipo: *{tipo_nombre[curso]}*")
+                            st.sidebar.write(f"- Sede: *{sede_nombre[curso]}*")
+                            st.sidebar.write(f"- Modalidad: *{modalidad_nombre[curso]}*")
+                            st.sidebar.write(f"- N° Céditos: *{cred_nombre[curso]}*")
+                            st.sidebar.write(f"- Requisito: *{req_nombre[curso]}*")
                 else:
                     st.sidebar.write("Información específica no disponible para este ciclo.")
             st.pyplot(plt)
