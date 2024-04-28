@@ -4,6 +4,12 @@ import networkx as nx
 import matplotlib.pyplot as plt
 from login import autenticacion_usuario
 
+st.set_page_config(
+    page_title="Portal de Matrícula",
+    page_icon="school",
+    initial_sidebar_state="expanded",
+)
+
 page_bg_img = """
     <style>
     [data-testid="stAppViewContainer"] > .main {
