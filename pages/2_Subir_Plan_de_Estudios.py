@@ -39,6 +39,7 @@ def main():
                 df = leerDataFrame(upload_file)
                 st.session_state['df'] = df
                 st.write("¡Archivo cargado y verificado correctamente!")
+                st.write("(●'◡'●)")
             except ValueError as error:
                 st.error(f"Error al cargar el archivo: {error}")
     else:
