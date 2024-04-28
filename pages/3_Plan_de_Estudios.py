@@ -58,7 +58,7 @@ def obtenerAcronimo(df, nombresCorregidos):
 
 
 # Función que me permite generara los nodos en base a nuestro DatFrame
-def generarDatosNodos(df):
+def generarDatosNodos(df, acronimos):
     asigCodAcro = {}
     asigAcroCod = {}
     nombresNivel = {}
@@ -66,11 +66,23 @@ def generarDatosNodos(df):
     posic = {}
     nombresCiclo = []
 
+    ##
+    nombreCredito = {}
+    credNivel = {}
+    listas = []
+    asigCredNivel = []
+    tep = set()
+    listAristas = []
+    listAris= []
+    ##
+
+
     for index, row in df.iterrows():
         asigCodAcro[row['Código']] = row['Acrónimo']
     for index, row in df.iterrows():
         asigAcroCod[row['Acrónimo']] = row['Código']
-    nivel = ["PRIMER","SEGUNDO","TERCER","CUARTO","QUINTO","SEXTO","SÉTIMO","OCTAVO","NOVENO","DÉCIMO"]
+    nivel = ["PRIMER CICLO","SEGUNDO CICLO","TERCER CICLO","CUARTO CICLO",
+                "QUINTO CICLO","SEXTO CICLO","SÉTIMO CICLO","OCTAVO CICLO","NOVENO CICLO","DÉCIMO CICLO"]
 
     for num, nombre in enumerate(nivel):
         nombresNivel[nivel[num]] = num+1
@@ -80,7 +92,37 @@ def generarDatosNodos(df):
         for index, row in df.iterrows():
             if ciclo == row['Ciclo']:
                 dicTem.append(row['Acrónimo'])
-        cursosNivel[nombre + ' CICLO'] = dicTem
+        cursosNivel[nombre] = dicTem
+    ##
+    for cred, nivel in nombresNivel.items():
+        credNivel[nivel] = cred
+
+    for index, row in df.iterrows():
+        codigo = row['Requisito']
+
+        if codigo not in asigCodAcro and codigo not in nombreCredito:
+            if '/' not in codigo:
+                nombreCredito[row['Requisito']] = row['Ciclo'] - 1
+            else:
+                partes = codigo.split('/')
+                partes = [parte.strip() for parte in partes]
+                for i in partes:
+                    nombreCredito[i] = row['Ciclo'] - 1
+                    if i in df['Código'].values:
+                        tep.add(i)
+                        listas.append((i,row['Código']))
+
+    for nombreCred, ciclo in nombreCredito.items():
+        if ciclo in credNivel:
+            nom = credNivel[ciclo]
+            asigCredNivel.append({nom:nombreCred})
+    for index, row in df.iterrows():
+        for i in asigCredNivel:
+            for j,k in i.items():
+                if k not in tep:
+                    cursosNivel[j].append(k)
+                    tep.add(k)
+    ##
 
     for contador, (i, j) in enumerate(cursosNivel.items()):
         c = 1
@@ -90,14 +132,36 @@ def generarDatosNodos(df):
         for k in j:
             posic[k] = (c, 20 - contador*2)
             c +=1
+    ##
+    for index, row in df.iterrows():
+        acronimo = asigAcroCod[row['Acrónimo']]
+        requisito = row['Requisito']
+        if requisito != 'Ninguno':
+            arist = (requisito,acronimo)
+            listAristas.append(arist)
+    for i in listAristas:
+        if '/'not in i[0]:
+            listas.append(i)
 
-    return asigCodAcro,asigAcroCod,nombresNivel,cursosNivel,posic,nombresCiclo
+    for tupla in listas:
+        if tupla[0] in asigCodAcro:
+            updated_i = (asigCodAcro[tupla[0]], asigCodAcro[tupla[1]])
+            listAris.append(updated_i)
+        else:
+            listAris.append((tupla[0], asigCodAcro[tupla[1]]))
+    for i in listAris:
+        if i[0] not in acronimos:
+            acronimos.append(i[0])
+    ##
+
+    return asigCodAcro,asigAcroCod,listAris,acronimos,cursosNivel,posic,nombresCiclo
 
 
 # Función que nos permite mostrar la malla curricular como gráfo
-def mostrarGrafo(acronimos,posic):
+def mostrarGrafo(acronimos,posic,listAris):
     G = nx.DiGraph()
     G.add_nodes_from(acronimos)
+    G.add_edges_from(listAris)
     plt.figure(figsize=(17, 27))
     nx.draw(G, posic, with_labels=True, node_color='skyblue', node_size=8000, edge_color='black', linewidths=1, font_size=20)
     
@@ -115,8 +179,8 @@ def main():
             df['Nombre Requisito'] = nombresCorregidos
             acronimos = obtenerAcronimo(df,nombresCorregidos)
             df['Acrónimo'] = acronimos
-            asigCodAcro,asigAcroCod,nombresNivel,cursosNivel,posic,nombresCiclo = generarDatosNodos(df)
-            mostrarGrafo(acronimos,posic)
+            asigCodAcro,asigAcroCod,listAris,acronimos,cursosNivel,posic,nombresCiclo = generarDatosNodos(df,acronimos)
+            mostrarGrafo(acronimos,posic,listAris)
             
             posicionNivel = {}
             for nivel, nodos in cursosNivel.items():
