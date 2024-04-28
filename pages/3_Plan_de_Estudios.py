@@ -206,7 +206,7 @@ def main():
                     st.write(df)
                     cursos = cursosNivel[nivelPresionado]
                     for curso in cursos:
-                        if curso in acronimos1:
+                        if curso in df['Acrónimo'] :
                             curso_nombre = {}
                             tipo_nombre = {}
                             sede_nombre = {}
